@@ -40,6 +40,11 @@ namespace Library
             return _dueDate;
         }
 
+        public void SetDueDate(string DueDate)
+        {
+            _dueDate = DueDate;
+        }
+
 
         public static Checkout Find(int id)
         {
@@ -165,6 +170,32 @@ namespace Library
                 bool bookIdEquality = this.GetBookId() == newCheckout.GetBookId();
                 return (idEquality && dueDateEquality && patronIdEquality && bookIdEquality);
             }
+        }
+
+        public void Update(string dueDate)
+        {
+            SqlConnection conn = DB.Connection();
+            conn.Open();
+
+            SqlCommand cmd = new SqlCommand("UPDATE checkouts SET due_date = @CheckoutDueDate OUTPUT INSERTED.due_date WHERE id = @CheckoutId;", conn);
+            // Next line represents following 4 lines of code, put into one
+            // cmd.Parameters.Add(new SqlParameter("@CheckoutId", this.GetId()));
+
+            SqlParameter checkoutIdParameter = new SqlParameter();
+            checkoutIdParameter.ParameterName = "@CheckoutId";
+            checkoutIdParameter.Value = this.GetId();
+            cmd.Parameters.Add(checkoutIdParameter);
+
+            cmd.Parameters.Add(new SqlParameter("@CheckoutDueDate", dueDate));
+
+            SqlDataReader rdr = cmd.ExecuteReader();
+
+            while (rdr.Read())
+            {
+                this.SetDueDate(rdr.GetString(0));
+            }
+
+            DB.CloseSqlConnection(conn, rdr);
         }
     }
 }

@@ -70,6 +70,30 @@ namespace Library
             Assert.Equal(0, Checkout.GetAll().Count);
         }
 
+        [Fact]
+        public void Update_UpdateInDatabase_true()
+        {
+            //Arrange
+            Author newAuthor = new Author("Ernest Hemingway");
+            newAuthor.Save();
+            Book newBook = new Book("Old Man and the Sea", 5);
+            newBook.Save();
+            newBook.AddAuthor(newAuthor.GetId());
+            Patron newPatron = new Patron("Johnny English", "555-555-5555");
+            newPatron.Save();
+
+            Checkout newCheckout = new Checkout("2017-05-1", newPatron.GetId(), newBook.GetId());
+            newCheckout.Save(newBook);
+            //Act
+            newCheckout.Update("2017-06-12");
+            string result = newCheckout.GetDueDate();
+
+            //Assert
+            Assert.Equal("2017-06-12", result);
+            // Assert.Equal(newName, result.GetName());
+        }
+
+
 
         public void Dispose()
         {
