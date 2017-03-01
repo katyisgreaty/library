@@ -75,6 +75,48 @@ namespace Library
             return new Checkout(foundCheckoutDueDate, foundPatronId, foundBookId, foundId);
         }
 
+        public string GetPatronName()
+        {
+            SqlConnection conn = DB.Connection();
+            conn.Open();
+
+            SqlCommand cmd = new SqlCommand("SELECT patrons.name FROM patrons JOIN checkouts ON (patron.id = checkouts.patron_id) WHERE checkouts.id = @ThisId;", conn);
+            cmd.Parameters.Add(new SqlParameter("@ThisId", this.GetId()));
+
+            SqlDataReader rdr = cmd.ExecuteReader();
+
+            string patronName = null;
+            while(rdr.Read())
+            {
+                patronName = rdr.GetString(0);
+            }
+
+            DB.CloseSqlConnection(conn, rdr);
+
+            return patronName;
+        }
+
+        public string GetBookName()
+        {
+            SqlConnection conn = DB.Connection();
+            conn.Open();
+
+            SqlCommand cmd = new SqlCommand("SELECT books.name FROM books JOIN checkouts ON (book.id = checkouts.book_id) WHERE checkouts.id = @ThisId;", conn);
+            cmd.Parameters.Add(new SqlParameter("@ThisId", this.GetId()));
+
+            SqlDataReader rdr = cmd.ExecuteReader();
+
+            string bookName = null;
+            while(rdr.Read())
+            {
+                bookName = rdr.GetString(0);
+            }
+
+            DB.CloseSqlConnection(conn, rdr);
+
+            return bookName;
+        }
+
         public void Save(Book checkoutBook)
         {
             SqlConnection conn = DB.Connection();
