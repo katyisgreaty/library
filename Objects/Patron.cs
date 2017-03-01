@@ -78,6 +78,31 @@ namespace Library
 
             DB.CloseSqlConnection(conn, rdr);
         }
+        public List<Checkout> GetCheckouts()
+        {
+            List<Checkout> allCheckouts = new List<Checkout>{};
+            SqlConnection conn = DB.Connection();
+            conn.Open();
+
+            SqlCommand cmd = new SqlCommand("SELECT checkouts.* FROM checkouts JOIN patrons ON (checkouts.patron_id = patrons.id) WHERE patrons.id = @PatronId;", conn);
+            cmd.Parameters.Add(new SqlParameter("@PatronId", this.GetId()));
+
+            SqlDataReader rdr= cmd.ExecuteReader();
+
+            while(rdr.Read())
+            {
+                int foundId = rdr.GetInt32(0);
+                string foundDueDate = rdr.GetString(1);
+                int foundPatronId = rdr.GetInt32(2);
+                int foundBookId = rdr.GetInt32(3);
+                Checkout foundCheckout = new Checkout(foundDueDate, foundPatronId, foundBookId, foundId);
+                allCheckouts.Add(foundCheckout);
+            }
+
+            DB.CloseSqlConnection(conn, rdr);
+
+            return allCheckouts;
+        }
 
         public static List<Patron> GetAll()
         {

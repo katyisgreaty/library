@@ -132,7 +132,7 @@ namespace Library
             return allCheckouts;
         }
 
-        public static void Delete(int id)
+        public static void Return(int id)
         {
             SqlConnection conn = DB.Connection();
             conn.Open();

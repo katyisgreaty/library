@@ -58,14 +58,14 @@ namespace Library
         }
 
         [Fact]
-        public void Checkout_Delete_DoNotRemoveFromDatabase_4()
+        public void Checkout_Return_DoNotRemoveFromDatabase_4()
         {
             Book newBook = new Book("Old Man and the Sea", 4);
             newBook.Save();
             Checkout newCheckout = new Checkout("2017-05-1", 1, 1);
             newCheckout.Save(newBook);
 
-            Checkout.Delete(newCheckout.GetId());
+            Checkout.Return(newCheckout.GetId());
 
             Assert.Equal("returned", Checkout.GetAll()[0].GetDueDate());
         }
@@ -93,7 +93,7 @@ namespace Library
             // Assert.Equal(newName, result.GetName());
         }
         [Fact]
-        public void Delete_SpecificCheckAndAddCopyToBook()
+        public void Return_SpecificCheckAndAddCopyToBook()
         {
             Author newAuthor = new Author("Ernest Hemingway");
             newAuthor.Save();
@@ -106,7 +106,7 @@ namespace Library
             Checkout newCheckout = new Checkout("2017-05-1", newPatron.GetId(), newBook.GetId());
             newCheckout.Save(newBook);
 
-            Checkout.Delete(newCheckout.GetId());
+            Checkout.Return(newCheckout.GetId());
 
             int actual = Book.GetAll()[0].GetCopies();
 
