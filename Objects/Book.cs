@@ -8,10 +8,10 @@ namespace Library
     public class Book
     {
         private string _name;
-        private string _copies;
+        private int _copies;
         private int _id;
 
-        public Book(string Name, string Copies, int Id = 0)
+        public Book(string Name, int Copies, int Id = 0)
         {
             _name = Name;
             _copies = Copies;
@@ -28,7 +28,7 @@ namespace Library
             return _name;
         }
 
-        public string GetCopies()
+        public int GetCopies()
         {
             return _copies;
         }
@@ -46,13 +46,13 @@ namespace Library
 
             int foundId = 0;
             string foundName = null;
-            string foundBookCopies = null;
+            int foundBookCopies = 0;
 
             while(rdr.Read())
             {
                 foundId = rdr.GetInt32(0);
                 foundName = rdr.GetString(1);
-                foundBookCopies = rdr.GetString(2);
+                foundBookCopies = rdr.GetInt32(2);
             }
 
             DB.CloseSqlConnection(conn, rdr);
@@ -65,7 +65,7 @@ namespace Library
             SqlConnection conn = DB.Connection();
             conn.Open();
 
-            SqlCommand cmd = new SqlCommand("INSERT INTO books (name, number) OUTPUT INSERTED.id VALUES (@BookName, @BookCopies);", conn);
+            SqlCommand cmd = new SqlCommand("INSERT INTO books (title, copies) OUTPUT INSERTED.id VALUES (@BookName, @BookCopies);", conn);
             cmd.Parameters.Add(new SqlParameter("@BookName", this.GetName()));
             cmd.Parameters.Add(new SqlParameter("@BookCopies", this.GetCopies()));
 
@@ -90,7 +90,7 @@ namespace Library
 
             while(rdr.Read())
             {
-                allBooks.Add(new Book(rdr.GetString(1), rdr.GetString(2), rdr.GetInt32(0)));
+                allBooks.Add(new Book(rdr.GetString(1), rdr.GetInt32(2), rdr.GetInt32(0)));
             }
 
             DB.CloseSqlConnection(conn, rdr);
