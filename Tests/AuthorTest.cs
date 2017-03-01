@@ -74,8 +74,6 @@ namespace Library
             newAuthor.AddBook(newBook.GetId());
 
             Assert.Equal(expected, newAuthor.GetBooks());
-
-
         }
 
         public void Dispose()

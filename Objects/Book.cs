@@ -98,6 +98,31 @@ namespace Library
             DB.CloseSqlConnection(conn);
         }
 
+        public List<Author> GetAuthors()
+        {
+            List<Author> allAuthors = new List<Author>{};
+            SqlConnection conn = DB.Connection();
+            conn.Open();
+
+            SqlCommand cmd = new SqlCommand("SELECT authors.* FROM books_authors JOIN authors ON (authors.id = books_authors.author_id) JOIN books ON (books.id = books_authors.book_id) WHERE books.id = @BookId;", conn);
+
+            cmd.Parameters.Add(new SqlParameter("@BookId", this.GetId()));
+
+            SqlDataReader rdr= cmd.ExecuteReader();
+
+            while(rdr.Read())
+            {
+                int foundId = rdr.GetInt32(0);
+                string foundName = rdr.GetString(1);
+                Author foundAuthor = new Author(foundName, foundId);
+                allAuthors.Add(foundAuthor);
+            }
+
+            DB.CloseSqlConnection(conn, rdr);
+
+            return allAuthors;
+        }
+
         public static List<Book> GetAll()
         {
             List<Book> allBooks = new List<Book> {};

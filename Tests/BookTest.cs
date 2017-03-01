@@ -60,6 +60,20 @@ namespace Library
             Assert.Equal(0, Book.GetAll().Count);
         }
 
+        [Fact]
+        public void Book_AddAuthorToBook()
+        {
+            Author newAuthor = new Author("Ernest Hemingway");
+            newAuthor.Save();
+            Book newBook = new Book("Old Man and the Sea", 4);
+            newBook.Save();
+            List<Author> expected = new List<Author>{newAuthor};
+
+            newBook.AddAuthor(newAuthor.GetId());
+
+            Assert.Equal(expected, newBook.GetAuthors());
+        }
+
         public void Dispose()
         {
             Author.DeleteAll();
