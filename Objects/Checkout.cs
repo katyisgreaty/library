@@ -140,7 +140,12 @@ namespace Library
             SqlCommand cmd = new SqlCommand("DELETE FROM checkouts WHERE id=@CheckoutId;", conn);
             cmd.Parameters.Add(new SqlParameter("@CheckoutId", id));
 
+            SqlCommand copyCmd = new SqlCommand("UPDATE books SET copies = @BookCopies WHERE id = @BookId;", conn);
+            copyCmd.Parameters.Add(new SqlParameter("@BookCopies", (Book.Find(Checkout.Find(id).GetBookId()).GetCopies() + 1)));
+            copyCmd.Parameters.Add(new SqlParameter("@BookId", Checkout.Find(id).GetBookId()));
+
             cmd.ExecuteNonQuery();
+            copyCmd.ExecuteNonQuery();
             DB.CloseSqlConnection(conn);
         }
 

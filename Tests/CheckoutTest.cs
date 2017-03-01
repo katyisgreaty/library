@@ -92,6 +92,26 @@ namespace Library
             Assert.Equal("2017-06-12", result);
             // Assert.Equal(newName, result.GetName());
         }
+        [Fact]
+        public void Delete_SpecificCheckAndAddCopyToBook()
+        {
+            Author newAuthor = new Author("Ernest Hemingway");
+            newAuthor.Save();
+            Book newBook = new Book("Old Man and the Sea", 5);
+            newBook.Save();
+            newBook.AddAuthor(newAuthor.GetId());
+            Patron newPatron = new Patron("Johnny English", "555-555-5555");
+            newPatron.Save();
+
+            Checkout newCheckout = new Checkout("2017-05-1", newPatron.GetId(), newBook.GetId());
+            newCheckout.Save(newBook);
+
+            Checkout.Delete(newCheckout.GetId());
+
+            int actual = Book.GetAll()[0].GetCopies();
+
+            Assert.Equal(5, actual);
+        }
 
 
 
