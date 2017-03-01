@@ -52,6 +52,46 @@ namespace Library
             return new Author(foundName, foundId);
         }
 
+        public void AddBook(int id)
+        {
+            SqlConnection conn = DB.Connection();
+            conn.Open();
+
+            SqlCommand cmd = new SqlCommand("INSERT INTO books_authors(book_id, author_id) VALUES (@BookId, @AuthorId);", conn);
+            cmd.Parameters.Add(new SqlParameter("@BookId", id));
+            cmd.Parameters.Add(new SqlParameter("@AuthorId", this.GetId()));
+
+            cmd.ExecuteNonQuery();
+
+            DB.CloseSqlConnection(conn);
+        }
+
+        public List<Book> GetBooks()
+        {
+            List<Book> allBooks = new List<Book>{};
+            SqlConnection conn = DB.Connection();
+            conn.Open();
+
+            SqlCommand cmd = new SqlCommand("SELECT books.* FROM books_authors JOIN authors ON (authors.id = books_authors.author_id) JOIN books ON (books.id = books_authors.book_id) WHERE authors.id = @AuthorId;", conn);
+
+            cmd.Parameters.Add(new SqlParameter("@AuthorId", this.GetId()));
+
+            SqlDataReader rdr= cmd.ExecuteReader();
+
+            while(rdr.Read())
+            {
+                int foundId = rdr.GetInt32(0);
+                string foundTitle = rdr.GetString(1);
+                int foundCopies = rdr.GetInt32(2);
+                Book foundBook = new Book(foundTitle, foundCopies, foundId);
+                allBooks.Add(foundBook);
+            }
+
+            DB.CloseSqlConnection(conn, rdr);
+
+            return allBooks;
+        }
+
         public void Save()
         {
             SqlConnection conn = DB.Connection();

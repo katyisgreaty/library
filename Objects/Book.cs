@@ -154,5 +154,6 @@ namespace Library
                 return (idEquality && nameEquality && copiesEquality);
             }
         }
+
     }
 }
