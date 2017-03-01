@@ -5,6 +5,68 @@
         <title></title>
     </head>
     <body>
-        @RenderBody()
+        <div class="row">
+            <div class="col s4">
+                <div class="authors">
+                    @if(Model["Authors"].Count == 0)
+                    {
+                        <p>There are no authors listed</p>
+                    }
+                    else
+                    {
+                        @foreach(var author in Model["Authors"])
+                        {
+                            <a href="/author/@author.GetId()"><p>@author.GetName()</p></a>
+                        }
+                    }
+                </div>
+                <hr>
+                <div class="books">
+                    @if(Model["Books"].Count == 0)
+                    {
+                        <p>There are no books listed</p>
+                    }
+                    else
+                    {
+                        @foreach(var book in Model["Books"])
+                        {
+                            <a href="/book/@book.GetId()"><p>@book.GetName()</p></a>
+                        }
+                    }
+                </div>
+                <hr>
+                <div class="patrons">
+                    @if(Model["Patrons"].Count == 0)
+                    {
+                        <p>There are no patrons listed</p>
+                    }
+                    else
+                    {
+                        @foreach(var patron in Model["Patrons"])
+                        {
+                            <p>@patron.GetName()</p>
+                        }
+                    }
+                </div>
+                <hr>
+                <div class="input-field book-form">
+                    <form class="" action="/add-book" method="post">
+                        <input type="text" name="book-name" placeholder="Book Name">
+                        <input type="number" name="copies" placeholder="Copies">
+                        <button type="submit" name="button" class="btn">Add Book</button>
+                    </form>
+                </div>
+
+                <div class="input-field author-form">
+                    <form class="" action="/add-author" method="post">
+                        <input type="text" name="author-name" placeholder="Author Name">
+                        <button type="submit" name="button" class="btn">Add Author</button>
+                    </form>
+                </div>
+            </div>
+            <div class="col s8">
+                @RenderBody()
+            </div>
+        </div>
     </body>
 </html>

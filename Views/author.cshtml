@@ -1,0 +1,29 @@
+@{
+    Layout="Shared/_Layout.cshtml";
+}
+
+<h2>@Model["Author"].GetName()</h2>
+@if(Model["Author"].GetBooks().Count != 0)
+{
+    foreach(var book in Model["Author"].GetBooks())
+    {
+        <p>@book.GetName()</p>
+    }
+}
+else
+{
+    <p>There are no books associated with this author yet</p>
+}
+
+<div class="input-field">
+    <form class="" action="/author/@Model["Author"].GetId()" method="post">
+        <select name="book-id">
+            <option value="" disabled selected>Add a book to this author</option>
+            @foreach(var book in Model["Books"])
+            {
+                <option value="@book.GetId()">@book.GetName()</option>
+            }
+        </select>
+        <button type="submit" name="button">Add Book</button>
+    </form>
+</div>
