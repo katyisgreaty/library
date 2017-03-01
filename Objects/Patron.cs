@@ -84,7 +84,7 @@ namespace Library
             SqlConnection conn = DB.Connection();
             conn.Open();
 
-            SqlCommand cmd = new SqlCommand("SELECT checkouts.* FROM checkouts JOIN patrons ON (checkouts.patron_id = patrons.id) WHERE patrons.id = @PatronId;", conn);
+            SqlCommand cmd = new SqlCommand("SELECT checkouts.* FROM checkouts JOIN patrons ON (checkouts.patron_id = patrons.id) WHERE patrons.id = @PatronId ORDER BY due_date;", conn);
             cmd.Parameters.Add(new SqlParameter("@PatronId", this.GetId()));
 
             SqlDataReader rdr= cmd.ExecuteReader();

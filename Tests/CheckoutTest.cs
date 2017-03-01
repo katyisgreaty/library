@@ -113,6 +113,30 @@ namespace Library
             Assert.Equal(5, actual);
         }
 
+        [Fact]
+        public void Return_OverdueBooks()
+        {
+            Patron newPatron = new Patron("Johnny English", "555-555-5555");
+            newPatron.Save();
+
+            Author newAuthor = new Author("Ernest Hemingway");
+            newAuthor.Save();
+            Book newBook = new Book("Old Man and the Sea", 5);
+            newBook.Save();
+            Book otherBook = new Book("Farewell to Arms", 7);
+            otherBook.Save();
+
+            Checkout newCheckout = new Checkout("2017-03-30", newPatron.GetId(), newBook.GetId());
+            newCheckout.Save(newBook);
+            Checkout otherCheckout = new Checkout("2017-01-30", newPatron.GetId(), otherBook.GetId());
+            otherCheckout.Save(newBook);
+
+            List<Checkout> actual = Checkout.GetAllOverdue("2017-03-03");
+            List<Checkout> expected = new List<Checkout>{otherCheckout};
+
+            Assert.Equal(expected, actual);
+        }
+
 
 
         public void Dispose()

@@ -120,7 +120,7 @@ namespace Library
             SqlConnection conn = DB.Connection();
             conn.Open();
 
-            SqlCommand cmd = new SqlCommand("SELECT * FROM checkouts;", conn);
+            SqlCommand cmd = new SqlCommand("SELECT * FROM checkouts ORDER BY due_date;", conn);
             SqlDataReader rdr = cmd.ExecuteReader();
 
             while(rdr.Read())
@@ -130,6 +130,34 @@ namespace Library
 
             DB.CloseSqlConnection(conn, rdr);
             return allCheckouts;
+        }
+
+        public static List<Checkout> GetAllOverdue(string overdueDate)
+        {
+            int overdueInt = int.Parse(overdueDate.Replace("-",""));
+            List<Checkout> allCheckouts = new List<Checkout> {};
+            SqlConnection conn = DB.Connection();
+            conn.Open();
+
+            SqlCommand cmd = new SqlCommand("SELECT * FROM checkouts ORDER BY due_date;", conn);
+            SqlDataReader rdr = cmd.ExecuteReader();
+
+            while(rdr.Read())
+            {
+                allCheckouts.Add(new Checkout(rdr.GetString(1), rdr.GetInt32(2), rdr.GetInt32(3), rdr.GetInt32(0)));
+            }
+
+            List<Checkout> overdueList = new List<Checkout>();
+            foreach(Checkout checkout in allCheckouts)
+            {
+                if(int.Parse(checkout.GetDueDate().Replace("-", "")) < overdueInt)
+                {
+                    overdueList.Add(checkout);
+                }
+            }
+
+            DB.CloseSqlConnection(conn, rdr);
+            return overdueList;
         }
 
         public static void Return(int id)

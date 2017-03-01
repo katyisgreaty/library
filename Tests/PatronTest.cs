@@ -92,7 +92,7 @@ namespace Library
             otherCheckout.Save(newBook);
 
             List<Checkout> actual = newPatron.GetCheckouts();
-            List<Checkout> expected = new List<Checkout>{newCheckout, otherCheckout};
+            List<Checkout> expected = new List<Checkout>{otherCheckout, newCheckout};
 
             Assert.Equal(expected, actual);
         }
