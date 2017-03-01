@@ -70,16 +70,15 @@ namespace Library
             return new Checkout(foundCheckoutDueDate, foundPatronId, foundBookId, foundId);
         }
 
-        public void Save()
+        public void Save(Book checkoutBook)
         {
             SqlConnection conn = DB.Connection();
             conn.Open();
 
-            SqlCommand cmd = new SqlCommand("INSERT INTO checkouts (due_date, patron_id, book_id) OUTPUT INSERTED.id VALUES (@CheckoutDueDate, @PatronId, @BookId); UPDATE books SET copies = @CopiesParameter WHERE id = @BookId", conn);
+            SqlCommand cmd = new SqlCommand("INSERT INTO checkouts (due_date, patron_id, book_id) OUTPUT INSERTED.id VALUES (@CheckoutDueDate, @PatronId, @BookId);", conn);
             cmd.Parameters.Add(new SqlParameter("@PatronId", this.GetPatronId()));
             cmd.Parameters.Add(new SqlParameter("@BookId", this.GetBookId()));
             cmd.Parameters.Add(new SqlParameter("@CheckoutDueDate", this.GetDueDate()));
-            cmd.Parameters.Add(new SqlParameter("@CopiesParameter", (Book.Find(this.GetBookId())).GetCopies() - 1));
 
 
             SqlDataReader rdr = cmd.ExecuteReader();
@@ -89,7 +88,25 @@ namespace Library
                 this._id = rdr.GetInt32(0);
             }
 
-            DB.CloseSqlConnection(conn, rdr);
+            if(rdr != null)
+            {
+                rdr.Close();
+            }
+
+            SqlCommand updateCmd = new SqlCommand("UPDATE books SET copies = @CopiesParameter OUTPUT INSERTED.copies WHERE id = @BookId;", conn);
+            updateCmd.Parameters.Add(new SqlParameter("@BookId", this.GetBookId()));
+            updateCmd.Parameters.Add(new SqlParameter("@CopiesParameter", (checkoutBook.GetCopies() - 1)));
+
+
+            SqlDataReader updateRdr = updateCmd.ExecuteReader();
+
+            while(updateRdr.Read())
+            {
+                checkoutBook.SetCopies(updateRdr.GetInt32(0));
+            }
+
+
+            DB.CloseSqlConnection(conn, updateRdr);
         }
 
         public static List<Checkout> GetAll()

@@ -33,6 +33,11 @@ namespace Library
             return _copies;
         }
 
+        public void SetCopies(int newCopies)
+        {
+            _copies = newCopies;
+        }
+
 
         public static Book Find(int id)
         {
