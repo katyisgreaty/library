@@ -62,7 +62,10 @@ namespace Library
 
         public void Dispose()
         {
+            Author.DeleteAll();
             Book.DeleteAll();
+            Checkout.DeleteAll();
+            Patron.DeleteAll();
 
         }
     }

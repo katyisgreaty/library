@@ -75,10 +75,12 @@ namespace Library
             SqlConnection conn = DB.Connection();
             conn.Open();
 
-            SqlCommand cmd = new SqlCommand("INSERT INTO checkouts (due_date, patron_id, book_id) OUTPUT INSERTED.id VALUES (@CheckoutDueDate, @PatronId, @BookId);", conn);
+            SqlCommand cmd = new SqlCommand("INSERT INTO checkouts (due_date, patron_id, book_id) OUTPUT INSERTED.id VALUES (@CheckoutDueDate, @PatronId, @BookId); UPDATE books SET copies = @CopiesParameter WHERE id = @BookId", conn);
             cmd.Parameters.Add(new SqlParameter("@PatronId", this.GetPatronId()));
             cmd.Parameters.Add(new SqlParameter("@BookId", this.GetBookId()));
             cmd.Parameters.Add(new SqlParameter("@CheckoutDueDate", this.GetDueDate()));
+            cmd.Parameters.Add(new SqlParameter("@CopiesParameter", (Book.Find(this.GetBookId())).GetCopies() - 1));
+
 
             SqlDataReader rdr = cmd.ExecuteReader();
 

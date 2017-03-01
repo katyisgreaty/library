@@ -18,6 +18,7 @@ namespace Library
         {
             Assert.Equal(0, Author.GetAll().Count);
         }
+
         [Fact]
         public void Author_EqualityTest_1()
         {
@@ -64,7 +65,9 @@ namespace Library
         public void Dispose()
         {
             Author.DeleteAll();
-
+            Book.DeleteAll();
+            Checkout.DeleteAll();
+            Patron.DeleteAll();
         }
     }
 }

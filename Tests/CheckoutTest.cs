@@ -29,7 +29,15 @@ namespace Library
         [Fact]
         public void Save_SavesCheckoutToDatabase_2()
         {
-            Checkout newCheckout = new Checkout("2017-05-1", 1, 1);
+            Author newAuthor = new Author("Ernest Hemingway");
+            newAuthor.Save();
+            Book newBook = new Book("Old Man and the Sea", 5);
+            newBook.Save();
+            newBook.AddAuthor(newAuthor.GetId());
+            Patron newPatron = new Patron("Johnny English", "555-555-5555");
+            newPatron.Save();
+
+            Checkout newCheckout = new Checkout("2017-05-1", newPatron.GetId(), newBook.GetId());
             newCheckout.Save();
 
             List<Checkout> expectedList = new List<Checkout> {newCheckout};
@@ -60,9 +68,13 @@ namespace Library
             Assert.Equal(0, Checkout.GetAll().Count);
         }
 
+
         public void Dispose()
         {
+            Author.DeleteAll();
+            Book.DeleteAll();
             Checkout.DeleteAll();
+            Patron.DeleteAll();
 
         }
     }

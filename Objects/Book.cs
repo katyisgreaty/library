@@ -79,6 +79,20 @@ namespace Library
             DB.CloseSqlConnection(conn, rdr);
         }
 
+        public void AddAuthor(int id)
+        {
+            SqlConnection conn = DB.Connection();
+            conn.Open();
+
+            SqlCommand cmd = new SqlCommand("INSERT INTO books_authors(book_id, author_id) VALUES (@BookId, @AuthorId);", conn);
+            cmd.Parameters.Add(new SqlParameter("@BookId", this.GetId()));
+            cmd.Parameters.Add(new SqlParameter("@AuthorId", id));
+
+            cmd.ExecuteNonQuery();
+
+            DB.CloseSqlConnection(conn);
+        }
+
         public static List<Book> GetAll()
         {
             List<Book> allBooks = new List<Book> {};
