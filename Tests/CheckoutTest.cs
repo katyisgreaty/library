@@ -58,7 +58,7 @@ namespace Library
         }
 
         [Fact]
-        public void Checkout_Delete_RemoveFromDatabase_4()
+        public void Checkout_Delete_DoNotRemoveFromDatabase_4()
         {
             Book newBook = new Book("Old Man and the Sea", 4);
             newBook.Save();
@@ -67,7 +67,7 @@ namespace Library
 
             Checkout.Delete(newCheckout.GetId());
 
-            Assert.Equal(0, Checkout.GetAll().Count);
+            Assert.Equal("returned", Checkout.GetAll()[0].GetDueDate());
         }
 
         [Fact]

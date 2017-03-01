@@ -137,7 +137,7 @@ namespace Library
             SqlConnection conn = DB.Connection();
             conn.Open();
 
-            SqlCommand cmd = new SqlCommand("DELETE FROM checkouts WHERE id=@CheckoutId;", conn);
+            SqlCommand cmd = new SqlCommand("UPDATE checkouts SET due_date = 'returned' WHERE id=@CheckoutId;", conn);
             cmd.Parameters.Add(new SqlParameter("@CheckoutId", id));
 
             SqlCommand copyCmd = new SqlCommand("UPDATE books SET copies = @BookCopies WHERE id = @BookId;", conn);
