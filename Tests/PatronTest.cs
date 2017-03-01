@@ -60,6 +60,19 @@ namespace Library
             Assert.Equal(0, Patron.GetAll().Count);
         }
 
+        [Fact]
+        public void Update_UpdateNameAndPhone_UpdatedInfo()
+        {
+            Patron newPatron = new Patron("Johnny English", "555-555-5555");
+            newPatron.Save();
+            string updatedName = "Billy English";
+            string updatedPhone = "555-444-5555";
+            newPatron.Update(updatedName, updatedPhone);
+
+            Assert.Equal(updatedName, Patron.GetAll()[0].GetName());
+            Assert.Equal(updatedPhone, Patron.GetAll()[0].GetPhone());
+        }
+
         public void Dispose()
         {
             Author.DeleteAll();

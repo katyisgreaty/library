@@ -28,7 +28,7 @@ namespace Library
             return _name;
         }
 
-        public string GetNumber()
+        public string GetPhone()
         {
             return _number;
         }
@@ -67,7 +67,7 @@ namespace Library
 
             SqlCommand cmd = new SqlCommand("INSERT INTO patrons (name, phone) OUTPUT INSERTED.id VALUES (@PatronName, @PatronNumber);", conn);
             cmd.Parameters.Add(new SqlParameter("@PatronName", this.GetName()));
-            cmd.Parameters.Add(new SqlParameter("@PatronNumber", this.GetNumber()));
+            cmd.Parameters.Add(new SqlParameter("@PatronNumber", this.GetPhone()));
 
             SqlDataReader rdr = cmd.ExecuteReader();
 
@@ -131,9 +131,23 @@ namespace Library
                 Patron newPatron = (Patron) otherPatron;
                 bool idEquality = this.GetId() == newPatron.GetId();
                 bool nameEquality = this.GetName() == newPatron.GetName();
-                bool numEquality = this.GetNumber() == newPatron.GetNumber();
+                bool numEquality = this.GetPhone() == newPatron.GetPhone();
                 return (idEquality && nameEquality && numEquality);
             }
+        }
+
+        public void Update(string newName, string newPhone)
+        {
+            SqlConnection conn = DB.Connection();
+            conn.Open();
+
+            SqlCommand cmd = new SqlCommand("UPDATE patrons SET name = @NewName, phone = @NewPhone WHERE id = @PatronId;", conn);
+            cmd.Parameters.Add(new SqlParameter("@NewName", newName));
+            cmd.Parameters.Add(new SqlParameter("@NewPhone", newPhone));
+            cmd.Parameters.Add(new SqlParameter("@PatronId", this.GetId()));
+            cmd.ExecuteNonQuery();
+
+            DB.CloseSqlConnection(conn);
         }
     }
 }
