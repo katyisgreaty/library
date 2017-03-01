@@ -40,33 +40,35 @@ namespace Library
             Checkout newCheckout = new Checkout("2017-05-1", newPatron.GetId(), newBook.GetId());
             newCheckout.Save(newBook);
 
-            // List<Checkout> expectedList = new List<Checkout> {newCheckout};
-            // List<Checkout> actualList = Checkout.GetAll();
 
             Assert.Equal(4, newBook.GetCopies());
         }
 
-        // [Fact]
-        // public void Checkout_Find_3()
-        // {
-        //     Checkout newCheckout = new Checkout("2017-05-1", 1, 1);
-        //     newCheckout.Save();
-        //
-        //     Checkout foundCheckout = Checkout.Find(newCheckout.GetId());
-        // 
-        //     Assert.Equal(newCheckout, foundCheckout);
-        // }
-        //
-        // [Fact]
-        // public void Checkout_Delete_RemoveFromDatabase_4()
-        // {
-        //     Checkout newCheckout = new Checkout("2017-05-1", 1, 1);
-        //     newCheckout.Save();
-        //
-        //     Checkout.Delete(newCheckout.GetId());
-        //
-        //     Assert.Equal(0, Checkout.GetAll().Count);
-        // }
+        [Fact]
+        public void Checkout_Find_3()
+        {
+            Checkout newCheckout = new Checkout("2017-05-1", 1, 1);
+            Book newBook = new Book("Old Man and the Sea", 4);
+            newBook.Save();
+            newCheckout.Save(newBook);
+
+            Checkout foundCheckout = Checkout.Find(newCheckout.GetId());
+
+            Assert.Equal(newCheckout, foundCheckout);
+        }
+
+        [Fact]
+        public void Checkout_Delete_RemoveFromDatabase_4()
+        {
+            Book newBook = new Book("Old Man and the Sea", 4);
+            newBook.Save();
+            Checkout newCheckout = new Checkout("2017-05-1", 1, 1);
+            newCheckout.Save(newBook);
+
+            Checkout.Delete(newCheckout.GetId());
+
+            Assert.Equal(0, Checkout.GetAll().Count);
+        }
 
 
         public void Dispose()
