@@ -80,7 +80,7 @@ namespace Library
             SqlConnection conn = DB.Connection();
             conn.Open();
 
-            SqlCommand cmd = new SqlCommand("SELECT patrons.name FROM patrons JOIN checkouts ON (patron.id = checkouts.patron_id) WHERE checkouts.id = @ThisId;", conn);
+            SqlCommand cmd = new SqlCommand("SELECT patrons.name FROM patrons JOIN checkouts ON (patrons.id = checkouts.patron_id) WHERE checkouts.id = @ThisId;", conn);
             cmd.Parameters.Add(new SqlParameter("@ThisId", this.GetId()));
 
             SqlDataReader rdr = cmd.ExecuteReader();
@@ -101,7 +101,7 @@ namespace Library
             SqlConnection conn = DB.Connection();
             conn.Open();
 
-            SqlCommand cmd = new SqlCommand("SELECT books.name FROM books JOIN checkouts ON (book.id = checkouts.book_id) WHERE checkouts.id = @ThisId;", conn);
+            SqlCommand cmd = new SqlCommand("SELECT books.title FROM books JOIN checkouts ON (books.id = checkouts.book_id) WHERE checkouts.id = @ThisId;", conn);
             cmd.Parameters.Add(new SqlParameter("@ThisId", this.GetId()));
 
             SqlDataReader rdr = cmd.ExecuteReader();
@@ -192,7 +192,11 @@ namespace Library
             List<Checkout> overdueList = new List<Checkout>();
             foreach(Checkout checkout in allCheckouts)
             {
-                if(int.Parse(checkout.GetDueDate().Replace("-", "")) < overdueInt)
+                if(checkout.GetDueDate() == "returned")
+                {
+
+                }
+                else if(int.Parse(checkout.GetDueDate().Replace("-", "")) < overdueInt)
                 {
                     overdueList.Add(checkout);
                 }
@@ -209,13 +213,15 @@ namespace Library
 
             SqlCommand cmd = new SqlCommand("UPDATE checkouts SET due_date = 'returned' WHERE id=@CheckoutId;", conn);
             cmd.Parameters.Add(new SqlParameter("@CheckoutId", id));
-
-            SqlCommand copyCmd = new SqlCommand("UPDATE books SET copies = @BookCopies WHERE id = @BookId;", conn);
-            copyCmd.Parameters.Add(new SqlParameter("@BookCopies", (Book.Find(Checkout.Find(id).GetBookId()).GetCopies() + 1)));
-            copyCmd.Parameters.Add(new SqlParameter("@BookId", Checkout.Find(id).GetBookId()));
-
             cmd.ExecuteNonQuery();
-            copyCmd.ExecuteNonQuery();
+
+            if(Checkout.Find(id).GetDueDate() != "returned")
+            {
+                SqlCommand copyCmd = new SqlCommand("UPDATE books SET copies = @BookCopies WHERE id = @BookId;", conn);
+                copyCmd.Parameters.Add(new SqlParameter("@BookCopies", (Book.Find(Checkout.Find(id).GetBookId()).GetCopies() + 1)));
+                copyCmd.Parameters.Add(new SqlParameter("@BookId", Checkout.Find(id).GetBookId()));
+                copyCmd.ExecuteNonQuery();
+            }
             DB.CloseSqlConnection(conn);
         }
 

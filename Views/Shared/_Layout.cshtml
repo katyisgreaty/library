@@ -44,23 +44,32 @@
                     {
                         @foreach(var patron in Model["Patrons"])
                         {
-                            <p>@patron.GetName()</p>
+                            <a href="/patron/@patron.GetId()"><p>@patron.GetName()</p></a>
                         }
                     }
                 </div>
                 <hr>
                 <div class="input-field book-form">
                     <form class="" action="/add-book" method="post">
-                        <input type="text" name="book-name" placeholder="Book Name">
-                        <input type="number" name="copies" placeholder="Copies">
+                        <input type="text" name="book-name" placeholder="Book Name" required>
+                        <input type="number" name="copies" value="0" placeholder="Copies">
+                        <input type="text" name="author-name" placeholder="Author Name">
                         <button type="submit" name="button" class="btn">Add Book</button>
                     </form>
                 </div>
 
                 <div class="input-field author-form">
                     <form class="" action="/add-author" method="post">
-                        <input type="text" name="author-name" placeholder="Author Name">
+                        <input type="text" name="author-name" placeholder="Author Name" required>
                         <button type="submit" name="button" class="btn">Add Author</button>
+                    </form>
+                </div>
+
+                <div class="input-field patron-form">
+                    <form class="" action="/add-patron" method="post">
+                        <input type="text" name="patron-name" placeholder="Patron Name" required>
+                        <input type="text" name="patron-phone" placeholder="Patron Phone">
+                        <button type="submit" name="button" class="btn">Add Patron</button>
                     </form>
                 </div>
             </div>

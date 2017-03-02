@@ -14,7 +14,7 @@ else
 {
     <p>There are no authors associated to this book yet</p>
 }
-<p>@Model["Book"].GetCopies()</p>
+<p>Copies: @Model["Book"].GetCopies()</p>
 
 <div class="input-field">
     <form class="" action="/book/@Model["Book"].GetId()" method="post">
@@ -25,6 +25,22 @@ else
                 <option value="@author.GetId()">@author.GetName()</option>
             }
         </select>
-        <button type="submit" name="button">Add Book</button>
+        <button type="submit" name="button">Add Author</button>
+    </form>
+</div>
+
+<div class="delete-book">
+    <form class="" action="/book/@Model["Book"].GetId()" method="post">
+        <input type="hidden" name="_method" value="DELETE">
+        <button type="submit" name="button">Delete Book</button>
+    </form>
+</div>
+
+<div class="update-book">
+    <form class="" action="/book/@Model["Book"].GetId()" method="post">
+        <input type="hidden" name="_method" value="PATCH">
+        <input type="text" name="new-name" value="@Model["Book"].GetName()">
+        <input type="number" name="new-copies" value="@Model["Book"].GetCopies()">
+        <button type="submit" name="button">Update Book</button>
     </form>
 </div>

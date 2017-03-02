@@ -1,0 +1,42 @@
+@{
+    Layout="Shared/_Layout.cshtml";
+}
+
+<h2>@Model["Patron"].GetName()</h2>
+
+<h4>Books Checked Out:</h4>
+
+@if(Model["Patron Checkouts"].Count != 0)
+{
+    @foreach(var checkout in Model["Patron Checkouts"])
+    {
+        <p>Book: <a href="/book/@checkout.GetBookId()">@checkout.GetBookName()</a></p>
+        <p>Due Date: @checkout.GetDueDate()</p>
+        <form class="" action="/patron/@Model["Patron"].GetId()/return/@checkout.GetId()" method="post">
+            <button type="submit" name="button">Return</button>
+        </form>
+        <hr/>
+    }
+}
+
+<div class="checkout">
+    <form class="" action="/patron/@Model["Patron"].GetId()" method="post">
+        <select name="booklist">
+            <option value="0" disabled selected>Pick a book to checkout</option>
+            @if(Model["Books"].Count != 0)
+            {
+                @foreach(var book in Model["Books"])
+                {
+                    @if(@book.GetCopies() >= 1)
+                    {
+                        <option value="@book.GetId()">@book.GetName()</option>
+                    }
+                }
+            }
+        </select>
+        <input type="text" name="due-date" placeholder="Due Date">
+        <button type="submit" name="button">Checkout</button>
+    </form>
+</div>
+
+<hr>

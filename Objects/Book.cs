@@ -146,7 +146,7 @@ namespace Library
             SqlConnection conn = DB.Connection();
             conn.Open();
 
-            SqlCommand cmd = new SqlCommand("DELETE FROM books WHERE id=@BookId;", conn);
+            SqlCommand cmd = new SqlCommand("UPDATE books SET copies = 0 WHERE id=@BookId;", conn);
             cmd.Parameters.Add(new SqlParameter("@BookId", id));
 
             cmd.ExecuteNonQuery();
@@ -178,6 +178,20 @@ namespace Library
                 bool copiesEquality = this.GetCopies() == newBook.GetCopies();
                 return (idEquality && nameEquality && copiesEquality);
             }
+        }
+
+        public void Update(string newName, int newCopies)
+        {
+            SqlConnection conn = DB.Connection();
+            conn.Open();
+
+            SqlCommand cmd = new SqlCommand("UPDATE books SET title = @NewName, copies = @NewCopies WHERE id = @BookId;", conn);
+            cmd.Parameters.Add(new SqlParameter("@NewName", newName));
+            cmd.Parameters.Add(new SqlParameter("@NewCopies", newCopies));
+            cmd.Parameters.Add(new SqlParameter("@BookId", this.GetId()));
+            cmd.ExecuteNonQuery();
+
+            DB.CloseSqlConnection(conn);
         }
 
     }

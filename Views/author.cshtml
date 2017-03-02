@@ -27,3 +27,11 @@ else
         <button type="submit" name="button">Add Book</button>
     </form>
 </div>
+
+<div class="update-author">
+    <form class="" action="/author/@Model["Author"].GetId()" method="post">
+        <input type="hidden" name="_method" value="PATCH">
+        <input type="text" name="new-name" value="@Model["Author"].GetName()">
+        <button type="submit" name="button">Update Author</button>
+    </form>
+</div>

@@ -165,5 +165,19 @@ namespace Library
                 return (idEquality && nameEquality);
             }
         }
+
+        public void Update(string newName)
+        {
+            SqlConnection conn = DB.Connection();
+            conn.Open();
+
+            SqlCommand cmd = new SqlCommand("UPDATE authors SET name = @NewName WHERE id = @AuthorId;", conn);
+            cmd.Parameters.Add(new SqlParameter("@NewName", newName));
+            cmd.Parameters.Add(new SqlParameter("@AuthorId", this.GetId()));
+            cmd.ExecuteNonQuery();
+
+            DB.CloseSqlConnection(conn);
+        }
+
     }
 }
