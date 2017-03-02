@@ -3,6 +3,7 @@
 }
 
 <h2>@Model["Patron"].GetName()</h2>
+<p>@Model["Patron"].GetPhone()</p>
 
 <h4>Books Checked Out:</h4>
 
@@ -34,9 +35,20 @@
                 }
             }
         </select>
-        <input type="text" name="due-date" placeholder="Due Date">
+        <label for="due-date"></label>
+        <input id="due-date" type="date" name="due-date">
         <button type="submit" name="button">Checkout</button>
     </form>
 </div>
 
 <hr>
+
+
+<div class="update-patron">
+    <form class="" action="/patron/@Model["Patron"].GetId()" method="post">
+        <input type="hidden" name="_method" value="PATCH">
+        <input type="text" name="new-name" value="@Model["Patron"].GetName()">
+        <input type="text" name="new-phone" value="@Model["Patron"].GetPhone()">
+        <button type="submit" name="button">Update Patron</button>
+    </form>
+</div>

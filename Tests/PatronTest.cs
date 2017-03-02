@@ -86,9 +86,9 @@ namespace Library
             Book otherBook = new Book("Farewell to Arms", 7);
             otherBook.Save();
 
-            Checkout newCheckout = new Checkout("2017-03-30", newPatron.GetId(), newBook.GetId());
+            Checkout newCheckout = new Checkout("2017/03/30", newPatron.GetId(), newBook.GetId());
             newCheckout.Save(newBook);
-            Checkout otherCheckout = new Checkout("2017-01-30", newPatron.GetId(), otherBook.GetId());
+            Checkout otherCheckout = new Checkout("2017/01/30", newPatron.GetId(), otherBook.GetId());
             otherCheckout.Save(newBook);
 
             List<Checkout> actual = newPatron.GetCheckouts();

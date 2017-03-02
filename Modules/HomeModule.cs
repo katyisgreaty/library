@@ -8,14 +8,22 @@ namespace Library
     {
         public HomeModule()
         {
+            string thisDay = "1";
+
             Get["/"] = _ => {
                 Dictionary<string, object> model = ModelMaker();
-                model.Add("Overdue", Checkout.GetAllOverdue("2016-01-01"));
+                model.Add("Overdue", Checkout.GetAllOverdue(thisDay));
+                return View["index.cshtml", model];
+            };
+
+            Post["/update-date"] = _ => {
+                thisDay = Request.Form["current-day"];
+                Dictionary<string, object> model = ModelMaker();
+                model.Add("Overdue", Checkout.GetAllOverdue(thisDay));
                 return View["index.cshtml", model];
             };
 
             Post["/add-book"] = _ => {
-
                 Book newBook = new Book(Request.Form["book-name"], Request.Form["copies"]);
                 newBook.Save();
 
@@ -72,12 +80,21 @@ namespace Library
             };
 
             Post["/patron/{id}"] = parameters => {
+                Checkout newCheckout = new Checkout(Request.Form["due-date"], parameters.id, Request.Form["booklist"]);
+                newCheckout.Save(Book.Find(Request.Form["booklist"]));
                 Dictionary<string, object> model = ModelMaker();
                 model.Add("Patron", Patron.Find(parameters.id));
                 model.Add("Patron Checkouts", Patron.Find(parameters.id).GetCheckouts());
 
-                Checkout newCheckout = new Checkout(Request.Form["due-date"], parameters.id, Request.Form["booklist"]);
-                newCheckout.Save(Book.Find(Request.Form["booklist"]));
+                return View["patron.cshtml", model];
+            };
+
+            Patch["/patron/{id}"] = parameters => {
+                Patron.Find(parameters.id).Update(Request.Form["new-name"], Request.Form["new-phone"]);
+
+                Dictionary<string, object> model = ModelMaker();
+                model.Add("Patron", Patron.Find(parameters.id));
+                model.Add("Patron Checkouts", Patron.Find(parameters.id).GetCheckouts());
 
                 return View["patron.cshtml", model];
             };
@@ -115,7 +132,7 @@ namespace Library
 
             Delete["/book/{id}"] = parameters => {
                 Dictionary<string, object> model = ModelMaker();
-                model.Add("Overdue", Checkout.GetAllOverdue("2016-01-01"));
+                model.Add("Overdue", Checkout.GetAllOverdue(thisDay));
                 Book.Delete(parameters.id);
 
                 return View["index.cshtml", model];
@@ -123,6 +140,15 @@ namespace Library
 
             Post["/book/{id}"] = parameters => {
                 Book.Find(parameters.id).AddAuthor(Request.Form["author-id"]);
+
+                Dictionary<string, object> model = ModelMaker();
+                model.Add("Book", Book.Find(parameters.id));
+
+                return View["book.cshtml", model];
+            };
+
+            Post["/book/{id}/remove_author"] = parameters => {
+                Book.Find(parameters.id).RemoveAuthor(Request.Form["author-id"]);
 
                 Dictionary<string, object> model = ModelMaker();
                 model.Add("Book", Book.Find(parameters.id));

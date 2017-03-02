@@ -98,6 +98,19 @@ namespace Library
             DB.CloseSqlConnection(conn);
         }
 
+        public void RemoveAuthor(int id)
+        {
+            SqlConnection conn = DB.Connection();
+            conn.Open();
+
+            SqlCommand cmd = new SqlCommand("DELETE FROM books_authors WHERE author_id = @AuthorId;", conn);
+            cmd.Parameters.Add(new SqlParameter("@AuthorId", id));
+
+            cmd.ExecuteNonQuery();
+
+            DB.CloseSqlConnection(conn);
+        }
+
         public List<Author> GetAuthors()
         {
             List<Author> allAuthors = new List<Author>{};

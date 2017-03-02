@@ -29,6 +29,19 @@ else
     </form>
 </div>
 
+<div class="input-field">
+    <form class="" action="/book/@Model["Book"].GetId()/remove_author" method="post">
+        <select name="author-id">
+            <option value="" disabled selected>Delete an author from this book</option>
+            @foreach(var author in Model["Book"].GetAuthors())
+            {
+                <option value="@author.GetId()">@author.GetName()</option>
+            }
+        </select>
+        <button type="submit" name="button">Delete Author</button>
+    </form>
+</div>
+
 <div class="delete-book">
     <form class="" action="/book/@Model["Book"].GetId()" method="post">
         <input type="hidden" name="_method" value="DELETE">

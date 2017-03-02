@@ -21,8 +21,8 @@ namespace Library
         [Fact]
         public void Checkout_EqualityTest_1()
         {
-            Checkout newCheckout = new Checkout("2017-05-1", 1, 1);
-            Checkout secondCheckout = new Checkout("2017-05-1", 1, 1);
+            Checkout newCheckout = new Checkout("2017/05/1", 1, 1);
+            Checkout secondCheckout = new Checkout("2017/05/1", 1, 1);
 
             Assert.Equal(newCheckout, secondCheckout);
         }
@@ -37,7 +37,7 @@ namespace Library
             Patron newPatron = new Patron("Johnny English", "555-555-5555");
             newPatron.Save();
 
-            Checkout newCheckout = new Checkout("2017-05-1", newPatron.GetId(), newBook.GetId());
+            Checkout newCheckout = new Checkout("2017/05/1", newPatron.GetId(), newBook.GetId());
             newCheckout.Save(newBook);
 
 
@@ -47,7 +47,7 @@ namespace Library
         [Fact]
         public void Checkout_Find_3()
         {
-            Checkout newCheckout = new Checkout("2017-05-1", 1, 1);
+            Checkout newCheckout = new Checkout("2017/05/1", 1, 1);
             Book newBook = new Book("Old Man and the Sea", 4);
             newBook.Save();
             newCheckout.Save(newBook);
@@ -62,7 +62,7 @@ namespace Library
         {
             Book newBook = new Book("Old Man and the Sea", 4);
             newBook.Save();
-            Checkout newCheckout = new Checkout("2017-05-1", 1, 1);
+            Checkout newCheckout = new Checkout("2017/05/1", 1, 1);
             newCheckout.Save(newBook);
 
             Checkout.Return(newCheckout.GetId());
@@ -82,14 +82,14 @@ namespace Library
             Patron newPatron = new Patron("Johnny English", "555-555-5555");
             newPatron.Save();
 
-            Checkout newCheckout = new Checkout("2017-05-1", newPatron.GetId(), newBook.GetId());
+            Checkout newCheckout = new Checkout("2017/05/1", newPatron.GetId(), newBook.GetId());
             newCheckout.Save(newBook);
             //Act
-            newCheckout.Update("2017-06-12");
+            newCheckout.Update("2017/06/12");
             string result = newCheckout.GetDueDate();
 
             //Assert
-            Assert.Equal("2017-06-12", result);
+            Assert.Equal("2017/06/12", result);
             // Assert.Equal(newName, result.GetName());
         }
         [Fact]
@@ -103,7 +103,7 @@ namespace Library
             Patron newPatron = new Patron("Johnny English", "555-555-5555");
             newPatron.Save();
 
-            Checkout newCheckout = new Checkout("2017-05-1", newPatron.GetId(), newBook.GetId());
+            Checkout newCheckout = new Checkout("2017/05/1", newPatron.GetId(), newBook.GetId());
             newCheckout.Save(newBook);
 
             Checkout.Return(newCheckout.GetId());
@@ -126,12 +126,12 @@ namespace Library
             Book otherBook = new Book("Farewell to Arms", 7);
             otherBook.Save();
 
-            Checkout newCheckout = new Checkout("2017-03-30", newPatron.GetId(), newBook.GetId());
+            Checkout newCheckout = new Checkout("2017/03/30", newPatron.GetId(), newBook.GetId());
             newCheckout.Save(newBook);
-            Checkout otherCheckout = new Checkout("2017-01-30", newPatron.GetId(), otherBook.GetId());
+            Checkout otherCheckout = new Checkout("2017/01/30", newPatron.GetId(), otherBook.GetId());
             otherCheckout.Save(newBook);
 
-            List<Checkout> actual = Checkout.GetAllOverdue("2017-03-03");
+            List<Checkout> actual = Checkout.GetAllOverdue("2017/03/03");
             List<Checkout> expected = new List<Checkout>{otherCheckout};
 
             Assert.Equal(expected, actual);
