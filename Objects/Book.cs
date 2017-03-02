@@ -142,7 +142,7 @@ namespace Library
             SqlConnection conn = DB.Connection();
             conn.Open();
 
-            SqlCommand cmd = new SqlCommand("SELECT * FROM books;", conn);
+            SqlCommand cmd = new SqlCommand("SELECT * FROM books ORDER BY title;", conn);
             SqlDataReader rdr = cmd.ExecuteReader();
 
             while(rdr.Read())

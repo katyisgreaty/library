@@ -46,6 +46,10 @@ else
                     <input type="text" name="new-name" value="@Model["Author"].GetName()">
                     <button class="btn" type="submit" name="button">Update Author</button>
                 </form>
+                <form class="" action="/author/@Model["Author"].GetId()" method="post">
+                    <input type="hidden" name="_method" value="DELETE">
+                    <button class="btn" type="submit" name="button">Delete Author</button>
+                </form>
             </div>
         </div>
     </li>

@@ -4,14 +4,15 @@
 
 @if(Model["Overdue"].Count == 0)
 {
-    <p>There are no overdue books. Hooray!</p>
+    <h5>There are no overdue books. Hooray!</h5>
 }
 else
 {
+    <h2>Overdue Books:</h2>
     @foreach(var checkout in Model["Overdue"])
     {
-        <p>Patron: <a href="/patron/@checkout.GetPatronId()">@checkout.GetPatronName()</a></p>
-        <p>Overdue Book: @checkout.GetBookName()</p>
+        <h4>Book: <a href="/book/@checkout.GetBookId()">@checkout.GetBookName()</a></h4>
+        <h4>Patron: <a href="/patron/@checkout.GetPatronId()">@checkout.GetPatronName()</a></h4>
         <hr />
     }
 }

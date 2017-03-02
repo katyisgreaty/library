@@ -110,7 +110,7 @@ namespace Library
             SqlConnection conn = DB.Connection();
             conn.Open();
 
-            SqlCommand cmd = new SqlCommand("SELECT * FROM patrons;", conn);
+            SqlCommand cmd = new SqlCommand("SELECT * FROM patrons ORDER BY name;", conn);
             SqlDataReader rdr = cmd.ExecuteReader();
 
             while(rdr.Read())

@@ -121,6 +121,11 @@ namespace Library
                 return View["author.cshtml", model];
             };
 
+            Delete["/author/{id}"] = parameters => {
+                Author.Delete(parameters.id);
+                return View["index.cshtml", ModelMaker()];
+            };
+
             Get["/book/{id}"] = parameters => {
                 Dictionary<string, object> model = ModelMaker();
                 model.Add("Book", Book.Find(parameters.id));

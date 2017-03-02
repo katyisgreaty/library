@@ -211,10 +211,6 @@ namespace Library
             SqlConnection conn = DB.Connection();
             conn.Open();
 
-            SqlCommand cmd = new SqlCommand("UPDATE checkouts SET due_date = 'returned' WHERE id=@CheckoutId;", conn);
-            cmd.Parameters.Add(new SqlParameter("@CheckoutId", id));
-            cmd.ExecuteNonQuery();
-
             if(Checkout.Find(id).GetDueDate() != "returned")
             {
                 SqlCommand copyCmd = new SqlCommand("UPDATE books SET copies = @BookCopies WHERE id = @BookId;", conn);
@@ -222,6 +218,12 @@ namespace Library
                 copyCmd.Parameters.Add(new SqlParameter("@BookId", Checkout.Find(id).GetBookId()));
                 copyCmd.ExecuteNonQuery();
             }
+
+            SqlCommand cmd = new SqlCommand("UPDATE checkouts SET due_date = 'returned' WHERE id=@CheckoutId;", conn);
+            cmd.Parameters.Add(new SqlParameter("@CheckoutId", id));
+            cmd.ExecuteNonQuery();
+
+            
             DB.CloseSqlConnection(conn);
         }
 
