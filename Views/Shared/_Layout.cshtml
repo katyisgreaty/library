@@ -4,11 +4,15 @@
         <meta charset="utf-8">
         <script src="/Content/js/jquery-3.1.1.js" charset="utf-8"></script>
         <script src="/Content/js/scripts.js" charset="utf-8"></script>
+        <link rel="stylesheet" href="/Content/css/styles.css" media="screen" title="no title">
         <title></title>
     </head>
     <body>
         <div class="row">
             <div class="col s4">
+                <div class="home">
+                    <h3><a href="/">Home</a></h3>
+                </div>
                 <div class="authors">
                     @if(Model["Authors"].Count == 0)
                     {
@@ -72,6 +76,13 @@
                         <input type="text" name="patron-name" placeholder="Patron Name" required>
                         <input type="text" name="patron-phone" placeholder="Patron Phone">
                         <button type="submit" name="button" class="btn">Add Patron</button>
+                    </form>
+                </div>
+
+                <div class="overdue">
+                    <form class="" action="/overdue-date" method="post">
+                        <input type="date" name="current-day" id="current-day">
+                        <button type="submit" name="button">See Overdue Books</button>
                     </form>
                 </div>
             </div>

@@ -1,0 +1,17 @@
+@{
+    Layout="Shared/_Layout.cshtml";
+}
+
+@if(Model["Overdue"].Count == 0)
+{
+    <p>There are no overdue books. Hooray!</p>
+}
+else
+{
+    @foreach(var checkout in Model["Overdue"])
+    {
+        <p>Patron: <a href="/patron/@checkout.GetPatronId()">@checkout.GetPatronName()</a></p>
+        <p>Overdue Book: @checkout.GetBookName()</p>
+        <hr />
+    }
+}

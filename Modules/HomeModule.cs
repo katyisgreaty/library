@@ -11,16 +11,14 @@ namespace Library
             string thisDay = "1";
 
             Get["/"] = _ => {
-                Dictionary<string, object> model = ModelMaker();
-                model.Add("Overdue", Checkout.GetAllOverdue(thisDay));
-                return View["index.cshtml", model];
+                return View["index.cshtml", ModelMaker()];
             };
 
-            Post["/update-date"] = _ => {
+            Post["/overdue-date"] = _ => {
                 thisDay = Request.Form["current-day"];
                 Dictionary<string, object> model = ModelMaker();
                 model.Add("Overdue", Checkout.GetAllOverdue(thisDay));
-                return View["index.cshtml", model];
+                return View["overdue.cshtml", model];
             };
 
             Post["/add-book"] = _ => {

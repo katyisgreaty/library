@@ -7,7 +7,7 @@
 {
     foreach(var author in Model["Book"].GetAuthors())
     {
-        <p>@author.GetName()</p>
+        <p>Author: <a href="/author/@author.GetId()">@author.GetName()</a></p>
     }
 }
 else

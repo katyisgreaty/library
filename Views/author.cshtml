@@ -5,9 +5,11 @@
 <h2>@Model["Author"].GetName()</h2>
 @if(Model["Author"].GetBooks().Count != 0)
 {
+    <p>Books by @Model["Author"].GetName():</p>
     foreach(var book in Model["Author"].GetBooks())
     {
-        <p>@book.GetName()</p>
+        <p><a href="/book/@book.GetId()">@book.GetName()</a></p>
+        <hr/>
     }
 }
 else
