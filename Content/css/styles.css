@@ -1,3 +1,59 @@
+
+body{
+        background-color: #fcfcf7;
+}
+
+
 #current-day {
     display: none;
+}
+
+#sidebar {
+    padding: 2%;
+    background-image: url("/Content/img/library-edit.jpg");
+    background-position: center;
+    background-size: cover;
+    height:100vh;
+
+}
+
+.welcome {
+    margin: 3% 0 0 3%;
+}
+
+.home {
+    margin-bottom: 5%;
+}
+
+.sidebutton {
+    width: 100%;
+}
+
+.home-icon {
+    width: 70%;
+}
+
+
+.btn-floating {
+    height: 100px !important;
+    width: 100px !important;
+}
+
+
+.collapsible-body {
+    background-color: white;
+    opacity: .8;
+    color: black;
+}
+
+a {
+    color: black;
+}
+
+a:hover {
+    color: #305a9b;
+}
+
+input::-webkit-input-placeholder { /* Chrome/Opera/Safari */
+  color: #6d6d6d;
 }

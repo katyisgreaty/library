@@ -1,18 +1,21 @@
 @{
     Layout="Shared/_Layout.cshtml";
 }
-
-@if(Model["Overdue"].Count == 0)
-{
-    <h5>There are no overdue books. Hooray!</h5>
-}
-else
-{
-    <h2>Overdue Books:</h2>
-    @foreach(var checkout in Model["Overdue"])
+<div class="container">
+    @if(Model["Overdue"].Count == 0)
     {
-        <h4>Book: <a href="/book/@checkout.GetBookId()">@checkout.GetBookName()</a></h4>
-        <h4>Patron: <a href="/patron/@checkout.GetPatronId()">@checkout.GetPatronName()</a></h4>
-        <hr />
+        <br>
+        <br>
+        <h2 class="center-align">There are no overdue books. Hooray!</h2>
     }
-}
+    else
+    {
+        <h2>Overdue Books:</h2>
+        @foreach(var checkout in Model["Overdue"])
+        {
+            <h4>Book: <a href="/book/@checkout.GetBookId()">@checkout.GetBookName()</a></h4>
+            <h4>Patron: <a href="/patron/@checkout.GetPatronId()">@checkout.GetPatronName()</a></h4>
+            <hr />
+        }
+    }
+</div>

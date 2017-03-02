@@ -6,16 +6,16 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.0/js/materialize.min.js"></script>
     <script src="/Content/js/scripts.js" charset="utf-8"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.0/css/materialize.min.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link rel="stylesheet" href="/Content/css/styles.css" media="screen" title="no title">
     <title>Library</title>
 </head>
 <body>
     <div class="row">
-        <div class="col s3">
-            <div class="home">
-                <h3><a href="/">Home</a></h3>
+        <div class="col s3" id="sidebar">
+            <div class="home center-align">
+                <a href="/" class="btn-floating btn-large waves-effect waves-light"><i class="large material-icons">turned_in</i></a>
             </div>
-
 
             <ul class="collapsible" data-collapsible="accordion">
               <li>
@@ -109,16 +109,17 @@
                 </div>
               </li>
             </ul>
-            <hr>
             <div class="overdue">
                 <form class="" action="/overdue-date" method="post">
                     <input type="date" name="current-day" id="current-day">
-                    <button class="btn" type="submit" name="button">See Overdue Books</button>
+                    <button class="btn sidebutton" type="submit" name="button">See Overdue Books</button>
                 </form>
             </div>
         </div>
-        <div class="col s9">
-            @RenderBody()
+        <div class="col s8">
+            <div class="welcome">
+                @RenderBody()
+            </div>
         </div>
     </div>
 </body>

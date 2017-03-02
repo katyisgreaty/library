@@ -192,7 +192,7 @@ namespace Library
             List<Checkout> overdueList = new List<Checkout>();
             foreach(Checkout checkout in allCheckouts)
             {
-                if(checkout.GetDueDate() == "returned")
+                if(checkout.GetDueDate() == "Returned")
                 {
 
                 }
@@ -211,7 +211,7 @@ namespace Library
             SqlConnection conn = DB.Connection();
             conn.Open();
 
-            if(Checkout.Find(id).GetDueDate() != "returned")
+            if(Checkout.Find(id).GetDueDate() != "Returned")
             {
                 SqlCommand copyCmd = new SqlCommand("UPDATE books SET copies = @BookCopies WHERE id = @BookId;", conn);
                 copyCmd.Parameters.Add(new SqlParameter("@BookCopies", (Book.Find(Checkout.Find(id).GetBookId()).GetCopies() + 1)));
@@ -219,11 +219,11 @@ namespace Library
                 copyCmd.ExecuteNonQuery();
             }
 
-            SqlCommand cmd = new SqlCommand("UPDATE checkouts SET due_date = 'returned' WHERE id=@CheckoutId;", conn);
+            SqlCommand cmd = new SqlCommand("UPDATE checkouts SET due_date = 'Returned' WHERE id=@CheckoutId;", conn);
             cmd.Parameters.Add(new SqlParameter("@CheckoutId", id));
             cmd.ExecuteNonQuery();
 
-            
+
             DB.CloseSqlConnection(conn);
         }
 

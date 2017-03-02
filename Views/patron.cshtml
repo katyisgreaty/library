@@ -13,10 +13,17 @@
     @foreach(var checkout in Model["Patron Checkouts"])
     {
         <h4><a href="/book/@checkout.GetBookId()">@checkout.GetBookName()</a></h4>
-        <h5>Due Date: @checkout.GetDueDate()</h5>
-        <form class="" action="/patron/@Model["Patron"].GetId()/return/@checkout.GetId()" method="post">
-            <button class="btn" type="submit" name="button">Return</button>
-        </form>
+        @if(checkout.GetDueDate() != "Returned")
+        {
+            <h5>Due Date: @checkout.GetDueDate()</h5>
+            <form class="" action="/patron/@Model["Patron"].GetId()/return/@checkout.GetId()" method="post">
+                <button class="btn" type="submit" name="button">Return</button>
+            </form>
+        }
+        else
+        {
+            <h5>@checkout.GetDueDate()</h5>
+        }
         <hr/>
     }
 }
