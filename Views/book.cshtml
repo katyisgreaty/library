@@ -7,53 +7,74 @@
 {
     foreach(var author in Model["Book"].GetAuthors())
     {
-        <p>Author: <a href="/author/@author.GetId()">@author.GetName()</a></p>
+        <h4>Author: <a href="/author/@author.GetId()">@author.GetName()</a></h4>
     }
 }
 else
 {
-    <p>There are no authors associated to this book yet</p>
+    <h4>There are no authors associated to this book yet</h4>
 }
-<p>Copies: @Model["Book"].GetCopies()</p>
+<h4>Copies: @Model["Book"].GetCopies()</h4>
 
-<div class="input-field">
-    <form class="" action="/book/@Model["Book"].GetId()" method="post">
-        <select name="author-id">
-            <option value="" disabled selected>Add an author to this book</option>
-            @foreach(var author in Model["Authors"])
-            {
-                <option value="@author.GetId()">@author.GetName()</option>
-            }
-        </select>
-        <button type="submit" name="button">Add Author</button>
-    </form>
-</div>
-
-<div class="input-field">
-    <form class="" action="/book/@Model["Book"].GetId()/remove_author" method="post">
-        <select name="author-id">
-            <option value="" disabled selected>Delete an author from this book</option>
-            @foreach(var author in Model["Book"].GetAuthors())
-            {
-                <option value="@author.GetId()">@author.GetName()</option>
-            }
-        </select>
-        <button type="submit" name="button">Delete Author</button>
-    </form>
-</div>
-
-<div class="delete-book">
-    <form class="" action="/book/@Model["Book"].GetId()" method="post">
-        <input type="hidden" name="_method" value="DELETE">
-        <button type="submit" name="button">Delete Book</button>
-    </form>
-</div>
-
-<div class="update-book">
-    <form class="" action="/book/@Model["Book"].GetId()" method="post">
-        <input type="hidden" name="_method" value="PATCH">
-        <input type="text" name="new-name" value="@Model["Book"].GetName()">
-        <input type="number" name="new-copies" value="@Model["Book"].GetCopies()">
-        <button type="submit" name="button">Update Book</button>
-    </form>
-</div>
+<ul class="collapsible" data-collapsible="accordion">
+    <li>
+        <div class="collapsible-header">Add Author to Book:</div>
+        <div class="collapsible-body">
+            <div class="input-field">
+                <form class="" action="/book/@Model["Book"].GetId()" method="post">
+                    <select name="author-id">
+                        <option value="" disabled selected>Select Author</option>
+                        @foreach(var author in Model["Authors"])
+                        {
+                            <option value="@author.GetId()">@author.GetName()</option>
+                        }
+                    </select>
+                    <button class="btn" type="submit" name="button">Assign Author</button>
+                </form>
+            </div>
+        </div>
+    </li>
+    <li>
+        <div class="collapsible-header">Delete Author from Book</div>
+        <div class="collapsible-body">
+            <div class="input-field">
+                <form class="" action="/book/@Model["Book"].GetId()/remove_author" method="post">
+                    <select name="author-id">
+                        <option value="" disabled selected>Select Author</option>
+                        @foreach(var author in Model["Book"].GetAuthors())
+                        {
+                            <option value="@author.GetId()">@author.GetName()</option>
+                        }
+                    </select>
+                    <button class="btn" type="submit" name="button">Delete Author</button>
+                </form>
+            </div>
+        </div>
+    </li>
+    <li>
+        <div class="collapsible-header">Update Book</div>
+        <div class="collapsible-body">
+            <div class="update-book">
+                <form class="" action="/book/@Model["Book"].GetId()" method="post">
+                    <input type="hidden" name="_method" value="PATCH">
+                    <label for="title">Title:</label>
+                    <input id="title" type="text" name="new-name" value="@Model["Book"].GetName()">
+                    <label for="copies">Number of Copies:</label>
+                    <input id="copies" type="number" name="new-copies" value="@Model["Book"].GetCopies()">
+                    <button class="btn" type="submit" name="button">Update Book</button>
+                </form>
+            </div>
+        </div>
+    </li>
+    <li>
+        <div class="collapsible-header">Delete Book</div>
+        <div class="collapsible-body">
+            <div class="delete-book">
+                <form class="" action="/book/@Model["Book"].GetId()" method="post">
+                    <input type="hidden" name="_method" value="DELETE">
+                    <button class="btn" type="submit" name="button">Delete Book</button>
+                </form>
+            </div>
+        </div>
+    </li>
+</ul>

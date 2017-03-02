@@ -6,5 +6,6 @@ Date.prototype.toDateInputValue = (function() {
 
 
 $(function(){
+    $('select').material_select();
     $('#current-day').val(new Date().toDateInputValue());
 });

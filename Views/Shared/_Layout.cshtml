@@ -1,94 +1,125 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="utf-8">
-        <script src="/Content/js/jquery-3.1.1.js" charset="utf-8"></script>
-        <script src="/Content/js/scripts.js" charset="utf-8"></script>
-        <link rel="stylesheet" href="/Content/css/styles.css" media="screen" title="no title">
-        <title></title>
-    </head>
-    <body>
-        <div class="row">
-            <div class="col s4">
-                <div class="home">
-                    <h3><a href="/">Home</a></h3>
-                </div>
-                <div class="authors">
-                    @if(Model["Authors"].Count == 0)
-                    {
-                        <p>There are no authors listed</p>
-                    }
-                    else
-                    {
-                        @foreach(var author in Model["Authors"])
-                        {
-                            <a href="/author/@author.GetId()"><p>@author.GetName()</p></a>
-                        }
-                    }
-                </div>
-                <hr>
-                <div class="books">
-                    @if(Model["Books"].Count == 0)
-                    {
-                        <p>There are no books listed</p>
-                    }
-                    else
-                    {
-                        @foreach(var book in Model["Books"])
-                        {
-                            <a href="/book/@book.GetId()"><p>@book.GetName()</p></a>
-                        }
-                    }
-                </div>
-                <hr>
-                <div class="patrons">
-                    @if(Model["Patrons"].Count == 0)
-                    {
-                        <p>There are no patrons listed</p>
-                    }
-                    else
-                    {
-                        @foreach(var patron in Model["Patrons"])
-                        {
-                            <a href="/patron/@patron.GetId()"><p>@patron.GetName()</p></a>
-                        }
-                    }
-                </div>
-                <hr>
-                <div class="input-field book-form">
-                    <form class="" action="/add-book" method="post">
-                        <input type="text" name="book-name" placeholder="Book Name" required>
-                        <input type="number" name="copies" value="0" placeholder="Copies">
-                        <input type="text" name="author-name" placeholder="Author Name">
-                        <button type="submit" name="button" class="btn">Add Book</button>
-                    </form>
-                </div>
-
-                <div class="input-field author-form">
-                    <form class="" action="/add-author" method="post">
-                        <input type="text" name="author-name" placeholder="Author Name" required>
-                        <button type="submit" name="button" class="btn">Add Author</button>
-                    </form>
-                </div>
-
-                <div class="input-field patron-form">
-                    <form class="" action="/add-patron" method="post">
-                        <input type="text" name="patron-name" placeholder="Patron Name" required>
-                        <input type="text" name="patron-phone" placeholder="Patron Phone">
-                        <button type="submit" name="button" class="btn">Add Patron</button>
-                    </form>
-                </div>
-
-                <div class="overdue">
-                    <form class="" action="/overdue-date" method="post">
-                        <input type="date" name="current-day" id="current-day">
-                        <button type="submit" name="button">See Overdue Books</button>
-                    </form>
-                </div>
+<head>
+    <meta charset="utf-8">
+    <script src="/Content/js/jquery-3.1.1.js" charset="utf-8"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.0/js/materialize.min.js"></script>
+    <script src="/Content/js/scripts.js" charset="utf-8"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.0/css/materialize.min.css">
+    <link rel="stylesheet" href="/Content/css/styles.css" media="screen" title="no title">
+    <title>Library</title>
+</head>
+<body>
+    <div class="row">
+        <div class="col s3">
+            <div class="home">
+                <h3><a href="/">Home</a></h3>
             </div>
-            <div class="col s8">
-                @RenderBody()
+
+
+            <ul class="collapsible" data-collapsible="accordion">
+              <li>
+                <div class="collapsible-header">Authors</div>
+                <div class="collapsible-body">
+                    <div class="authors">
+                        @if(Model["Authors"].Count == 0)
+                        {
+                            <p>There are no authors listed</p>
+                        }
+                        else
+                        {
+                            @foreach(var author in Model["Authors"])
+                            {
+                                <a href="/author/@author.GetId()"><p>@author.GetName()</p></a>
+                            }
+                        }
+                    </div>
+                </div>
+              </li>
+              <li>
+                <div class="collapsible-header">Books</div>
+                <div class="collapsible-body">
+                    <div class="books">
+                        @if(Model["Books"].Count == 0)
+                        {
+                            <p>There are no books listed</p>
+                        }
+                        else
+                        {
+                            @foreach(var book in Model["Books"])
+                            {
+                                <a href="/book/@book.GetId()"><p>@book.GetName()</p></a>
+                            }
+                        }
+                    </div>
+                </div>
+              </li>
+              <li>
+                <div class="collapsible-header">Patrons</div>
+                <div class="collapsible-body">
+                    <div class="patrons">
+                        @if(Model["Patrons"].Count == 0)
+                        {
+                            <p>There are no patrons listed</p>
+                        }
+                        else
+                        {
+                            @foreach(var patron in Model["Patrons"])
+                            {
+                                <a href="/patron/@patron.GetId()"><p>@patron.GetName()</p></a>
+                            }
+                        }
+                    </div>
+                </div>
+              </li>
+              <li>
+                <div class="collapsible-header">Add Book</div>
+                <div class="collapsible-body">
+                    <div class="input-field book-form">
+                        <form class="" action="/add-book" method="post">
+                            <input type="text" name="book-name" placeholder="Book Name" required>
+                            <input type="number" name="copies" value="0" placeholder="Copies">
+                            <input type="text" name="author-name" placeholder="Author Name">
+                            <button type="submit" name="button" class="btn">Add Book</button>
+                        </form>
+                    </div>
+                </div>
+              </li>
+              <li>
+                <div class="collapsible-header">Add Author</div>
+                <div class="collapsible-body">
+                    <div class="input-field author-form">
+                        <form class="" action="/add-author" method="post">
+                            <input type="text" name="author-name" placeholder="Author Name" required>
+                            <button type="submit" name="button" class="btn">Add Author</button>
+                        </form>
+                    </div>
+                </div>
+              </li>
+              <li>
+                <div class="collapsible-header">Add Patron</div>
+                <div class="collapsible-body">
+                    <div class="input-field patron-form">
+                        <form class="" action="/add-patron" method="post">
+                            <input type="text" name="patron-name" placeholder="Patron Name" required>
+                            <input type="text" name="patron-phone" placeholder="Patron Phone">
+                            <button type="submit" name="button" class="btn">Add Patron</button>
+                        </form>
+                    </div>
+                </div>
+              </li>
+            </ul>
+            <hr>
+            <div class="overdue">
+                <form class="" action="/overdue-date" method="post">
+                    <input type="date" name="current-day" id="current-day">
+                    <button class="btn" type="submit" name="button">See Overdue Books</button>
+                </form>
             </div>
         </div>
-    </body>
+        <div class="col s9">
+            @RenderBody()
+        </div>
+    </div>
+</body>
 </html>
