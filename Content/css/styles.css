@@ -17,6 +17,18 @@ body{
 
 }
 
+img {
+    width:60%
+}
+
+.home-button {
+    font-size: 40px;
+}
+
+.home-button:hover {
+    color: black;
+}
+
 .welcome {
     margin: 3% 0 0 3%;
 }
